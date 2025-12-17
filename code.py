@@ -172,7 +172,7 @@ def main():
     flight_data_logger = None  # Инициализация позже
 
     logger.log("=" * 50, False)
-    logger.log("AUTOPILOT FOR KSP - ТОЧНО ПО ИНСТРУКЦИИ", False)
+    logger.log("AUTOPILOT FOR KSP", False)
     logger.log("=" * 50, False)
     logger.log(f"Файл лога: {os.path.abspath('ksp.txt')}")
     logger.log(f"Файл данных полета: {os.path.abspath('inf.txt')}")
@@ -181,7 +181,7 @@ def main():
     try:
         logger.log("Подключаюсь к KSP через kRPC...")
         conn = krpc.connect(
-            name='KSP_Strict_Instruction',
+            name='KSP_Autopilot',
             address='localhost',
             rpc_port=50000,
             stream_port=50001
@@ -206,7 +206,7 @@ def main():
     except Exception as e:
         logger.log(f"⚠ Ошибка инициализации логгера данных: {e}")
 
-    # Настройка потоков данных (ИСПРАВЛЕНО - без лямбд)
+    # Настройка потоков данных (без лямбд)
     altitude = conn.add_stream(getattr, vessel.flight(), 'mean_altitude')
     apoapsis = conn.add_stream(getattr, vessel.orbit, 'apoapsis_altitude')
     periapsis = conn.add_stream(getattr, vessel.orbit, 'periapsis_altitude')
@@ -553,3 +553,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
